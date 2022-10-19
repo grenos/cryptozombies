@@ -1,10 +1,13 @@
-pragma solidity >=0.5.0 <=0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 import "./zombiefeeding.sol";
+import "./SafeMath32.sol";
 
 contract ZombieHelper is ZombieFeeding {
 
   uint levelUpFee = 0.001 ether;
+  using SafeMath32 for uint32;
 
   modifier aboveLevel(uint _level, uint _zombieId) {
     require(zombies[_zombieId].level >= _level);
@@ -12,7 +15,7 @@ contract ZombieHelper is ZombieFeeding {
   }
 
   function withdraw() external onlyOwner {
-    address payable _owner = owner();
+    address payable _owner = payable(owner());
     _owner.transfer(address(this).balance);
   }
 

@@ -1,7 +1,10 @@
-pragma solidity >=0.5.0 <=0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-import "./ownable.sol";
-import "./safemath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "./SafeMath32.sol";
+import "./SafeMath16.sol";
 
 contract ZombieFactory is Ownable {
 
@@ -37,7 +40,7 @@ contract ZombieFactory is Ownable {
 
   // internal keyword -> this function is only callable from this contract or for any other contract that inherits from this contract.
   function _createZombie(string memory _name, uint _dna) internal {
-    zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime), 0, 0));
+    zombies.push(Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime), 0, 0));
     uint id = zombies.length - 1;
     zombieToOwner[id] = msg.sender;
     ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].add(1);

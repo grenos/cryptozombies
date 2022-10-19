@@ -1,4 +1,5 @@
-pragma solidity >=0.5.0 <=0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 import "./zombiefactory.sol";
 
@@ -33,11 +34,11 @@ contract ZombieFeeding is ZombieFactory {
 
   // storage keyword -> points to the exact Zombie struct in the storage so any changes made in the function will be written to the blockchain
   function _triggerCooldown(Zombie storage _zombie) internal {
-    _zombie.readyTime = uint32(now + cooldownTime);
+    _zombie.readyTime = uint32(block.timestamp + cooldownTime);
   }
 
   function _isReady(Zombie storage _zombie) internal view returns (bool) {
-      return (_zombie.readyTime <= now);
+      return (_zombie.readyTime <= block.timestamp);
   }
 
   function feedAndMultiply(uint _zombieId, uint _targetDna, string memory _species) internal onlyOwnerOf(_zombieId) {
